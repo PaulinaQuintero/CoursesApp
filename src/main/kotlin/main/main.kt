@@ -1,7 +1,6 @@
 package main
 
 fun main() {
-
     /* Cursos Disponibles */
     val courses: MutableMap<String, Float> = mutableMapOf(
         "Desarrollo Movil principiantes" to 500f,
@@ -28,12 +27,11 @@ fun main() {
 
     /* Variables para la ejecución de los while */
     var exit = 0//variable par salir del programa
-    var opcionInicio = 0 //variable para escoger la opción de inicio Login|Registrar
-    var opcionSalidaInicio = 0 // variable para mostrar o no el menú de inicio
+    var opcionMenu = 0 //variable para escoger la opción del menú de inicio (7 opciones)
+    var opcionSalidaMenu = 0 // variable para mostrar o no el menú de inicio aka. salir de la "app".
 
     /* Estructuras de datos de tipo MAP mutable */
-    // Key = usuario
-    // Value = password
+    // Key = usuario : // Value = password
     val usuarios: MutableMap<String, String> = mutableMapOf("admin1" to "123", "admin2" to "456")
 
     /* Funciones */
@@ -79,7 +77,7 @@ fun main() {
     }
 
     fun displayCurses() {
-        println("-----------------------------CURSOS DISPIBLES---------------------------------")
+        println("-----------------------------CURSOS DISPONIBLES---------------------------------")
         courses.forEach{
             println(it)
         }
@@ -148,14 +146,19 @@ fun main() {
             }
         }
     }
-
+    fun confirmarSalida(){
+        println("¿Desea regresar al menu principal?")
+        println("1 = SI | 2 = NO")
+        println("Su respuesta: ")
+    }
     /* Menú a mostrar al usuario */
     println("-------------------------------------------------------------------")
     println("------------------------------UDEMY--------------------------------")
     println("---------------------------BIENVENIDO------------------------------")
     println("")
     do {
-        println("-----------------------Escoja una opción---------------------------")
+        println("-----------------------Menú principal---------------------------")
+        println("--------------------Por favor elige una opción------------------")
         println("1: Login")
         println("2: Registrar")
         println("3: Mostrar Cursos")
@@ -163,9 +166,9 @@ fun main() {
         println("5: Eliminar un curso")
         println("6: Pagar un curso")
         println("Su opción: ")
-        opcionInicio = readLine()!!.toInt()
+        opcionMenu = readLine()!!.toInt()
 
-        when (opcionInicio) {
+        when (opcionMenu) {
             1 ->
                 do {
                     login()
@@ -173,47 +176,25 @@ fun main() {
 
             2 -> {
                 registrar()
-                println("¿Desea regresar al inicio?")
-                println("1 = SI | 2 = NO")
-                println("Su respuesta: ")
-                opcionSalidaInicio = readLine()!!.toInt()
             }
             3 -> {
                 displayCurses()
-                println("¿Desea regresar al inicio?")
-                println("1 = SI | 2 = NO")
-                println("Su respuesta: ")
-                opcionSalidaInicio = readLine()!!.toInt()
             }
             4 -> {
                 addCourse()
-                println("¿Desea regresar al inicio?")
-                println("1 = SI | 2 = NO")
-                println("Su respuesta: ")
-                opcionSalidaInicio = readLine()!!.toInt()
             }
             5 -> {
                 deleteCourse()
-                println("¿Desea regresar al inicio?")
-                println("1 = SI | 2 = NO")
-                println("Su respuesta: ")
-                opcionSalidaInicio = readLine()!!.toInt()
             }
             6 -> {
                 payCourse()
-                println("¿Desea regresar al inicio?")
-                println("1 = SI | 2 = NO")
-                println("Su respuesta: ")
-                opcionSalidaInicio = readLine()!!.toInt()
             }
             else -> {
                 println("Esa opción no es válida...")
-                println("¿Desea regresar al inicio?")
-                println("1 = SI | 2 = NO")
-                println("Su respuesta: ")
-                opcionSalidaInicio = readLine()!!.toInt()
             }
         }
-    } while (opcionSalidaInicio == 1)// ejecuta el menú principal mientras la opción del usuario sea 1
-
+        confirmarSalida()
+        opcionSalidaMenu = readLine()!!.toInt()
+    } while (opcionSalidaMenu == 1)// ejecuta el menú principal mientras la opción del usuario sea 1
 }
+
