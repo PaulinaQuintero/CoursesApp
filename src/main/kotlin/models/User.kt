@@ -1,8 +1,8 @@
 package models
 
 
-class User(var name: String, var last_name: String, var email: String) {
-
+class User(private val user: User, private var name: String,private var last_name: String,private var email: String) {
+    val userType:String = "user"
     val PASSWORD_LENGTH = 8
     init {
         println("¡Usuario $name $last_name registrado exitosamente!")
@@ -34,8 +34,16 @@ class User(var name: String, var last_name: String, var email: String) {
             println("Usuario y contraseña no coinciden intenta de nuevo")
         }
     }
-
-
-
-
+    val listOfPaymentMethods: MutableList<Payment> = mutableListOf()
+    fun addPaymentMethod(){
+        println("¿Cual es el método de pago que quieres agregar (tarjeta de crédito o débito?")
+        val metodo:String = readLine().toString()!!
+        println("¿Cual es el número de la tarjeta de ${metodo}?")
+        val numTarjeta:String = readLine().toString()!!
+        println("¿Cuánto dinero tiene la tarjeta a registrar?")
+        val dineroCuenta:Float = readLine()?.toFloat()!!
+        println("¿A qué nombre está la tarjeta?")
+        val ownerTarjeta:String = readLine().toString()!!
+        var newPayment = Payment(this,metodo,numTarjeta,dineroCuenta,ownerTarjeta)
+    }
 }
