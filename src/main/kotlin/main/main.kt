@@ -1,5 +1,7 @@
 package main
 
+const val PASSWORD_LENGTH = 8
+
 fun main() {
     /* Cursos Disponibles */
     val courses: MutableMap<String, Float> = mutableMapOf(
