@@ -1,16 +1,16 @@
 package models
 
 
-class User(private val user: User, private var name: String,private var last_name: String,private var email: String) {
+class User(var name: String, var email: String, private var pass: String) {
     val userType:String = "user"
     val PASSWORD_LENGTH = 8
     init {
-        println("¡Usuario $name $last_name registrado exitosamente!")
+        println("¡Usuario $name registrado exitosamente!")
     }
 
     var isLogIn = false
 
-    private var password: String = ""
+    private var password: String = pass
         set(value){
             if(value.length >= PASSWORD_LENGTH){
                 field = value
@@ -21,7 +21,6 @@ class User(private val user: User, private var name: String,private var last_nam
 
     fun updateProfile(name: String, last_name: String, email: String){
         this.name = name
-        this.last_name = last_name
         this.email = email
     }
 
