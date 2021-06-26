@@ -17,7 +17,6 @@ como tal.
 
 ## ¿Quienes mantienen y contribuyen a Udemy-App?
 
-| --- | --- | --- | --- | --- |
 | https://github.com/PaulinaQuintero | https://github.com/daviders98 | https://github.com/FedericoCelmo | https://github.com/Chuy210 |
 
 <br>
