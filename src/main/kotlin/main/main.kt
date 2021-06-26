@@ -1,16 +1,18 @@
 package main
 
-const val PASSWORD_LENGTH = 8
+import models.Course
+
 
 fun main() {
     /* Cursos Disponibles */
-    val courses: MutableMap<String, Float> = mutableMapOf(
-        "Desarrollo Movil principiantes" to 500f,
-        "Desarrollo Web Avanzado" to 400f,
-        "Diseño Grafico intermedio" to 350f,
-        "Infraestructura AWS" to 750f,
-        "Bases de datos con MySql" to 750f
-    )
+    val availableCourses: MutableList<Course> =
+        mutableListOf(
+            Course("Desarrollo móvil para principiantes",299f,
+            30.5f,10,"Julio Profe",4.5f),
+            Course("Desarrollo Web Avanzado",400f,
+                56.15f,45,"Ana Barrera",4.2f),
+            Course("Diseño Grafico intermedio",350f,
+                84.27f,30,"Horacio Fernández",4.8f))
 
     /* Código para el proyecto */
     /* Credenciales para el login */
@@ -18,14 +20,12 @@ fun main() {
     var password = "admin123" //password del usuario
     /* End credenciales para el login */
 
-
     /* Datos adicionales del usuario */
     var creditCard = "123456789" //número de la tarjeta de crédito
     var totalCD = 1500.01f //fondos de la tarjeta de crédito
     var debitCard = "987456321" //número de la tarjeta de débito
     var totalDC = 2512.30f //fondos de la tarjeta de débito
     /* End Datos adicionales del usuario */
-
 
     /* Variables para la ejecución de los while */
     var exit = 0//variable par salir del programa
@@ -80,39 +80,50 @@ fun main() {
 
     fun displayCurses() {
         println("-----------------------------CURSOS DISPONIBLES---------------------------------")
-        courses.forEach{
-            println(it)
+        availableCourses.forEach{
+            println(it.name+" "+ " "+it.price+ " "+it.author)
         }
         println("********************************************************************\n")
     }
-
     fun addCourse() {
         println("-----------------------------AGREGAR CURSO---------------------------------")
         println("Nombre del curso")
         var courseName = readLine().toString()
         println("Costo del curso")
         var courseCost = readLine()?.toFloat()
-        courses.put(courseName, courseCost!!)
+        println("Duración del curso")
+        var courseDuration = readLine()?.toFloat()
+        println("Capitulos del curso")
+        var courseChapters = readLine()?.toInt()
+        println("Autor/es del curso")
+        var courseAutor = readLine().toString()
+        availableCourses.add(Course(courseName, courseCost!!,courseDuration!!,courseChapters!!,courseAutor,0f))
         println("\n ¡Curso $courseName añadido correctamente!")
         println("********************************************************************\n")
     }
 
     fun deleteCourse() {
         println("-----------------------------ELIMINAR CURSO---------------------------------")
+        println("Estos son los cursos disponibles por el momento:")
+        displayCurses()
         println("Nombre del curso que quieres eliminarr")
         val courseName = readLine().toString()
         println("¿Estas seguro que quieres eliminar? S/N")
         val confirmation = readLine().toString().toUpperCase()
-        if (confirmation == "S") {
-            courses.remove(courseName);
-            println("\n ¡Curso $courseName eliminado correctamente!")
-        } else if (confirmation == "N") {
-            return
-        } else {
-            println("Opcion invalida")
-            return
+        when (confirmation) {
+            "S" -> {
+                availableCourses.removeAt(
+                    availableCourses.indexOf(availableCourses.find{ it.name == courseName}));
+                println("\n ¡Curso $courseName eliminado correctamente!")
+            }
+            "N" -> {
+                return
+            }
+            else -> {
+                println("Opcion invalida")
+                return
+            }
         }
-
         println("********************************************************************\n")
     }
 
@@ -128,8 +139,8 @@ fun main() {
         val card = readLine().toString()
         if(paymentMethod == 1) {
             if (card == debitCard) {
-                if(totalDC > courses[courseName]!!) {
-                    totalDC -= courses[courseName]!!
+                if(totalDC > availableCourses.find{ it.name == courseName}?.price!!) {
+                    totalDC -= availableCourses.find{ it.name == courseName}?.price!!
                     println("¡Pago aprobado! Has comprado el curso $courseName exitosamente")
                 }
                 else {
@@ -138,8 +149,8 @@ fun main() {
             }
         } else {
             if (card == creditCard) {
-                if(totalCD > courses[courseName]!!) {
-                    totalCD -= courses[courseName]!!
+                if(totalCD > availableCourses.find{ it.name == courseName}?.price!!) {
+                    totalCD -= availableCourses.find{ it.name == courseName}?.price!!
                     println("¡Pago aprobado! Has comprado el curso $courseName exitosamente")
                 }
                 else {
