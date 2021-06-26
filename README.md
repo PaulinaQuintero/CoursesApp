@@ -13,6 +13,7 @@ Udemy-App tendrá la posibilidad de que los usuarios puedan visualizar los curso
 Del otro lado expertos en distintas áreas podrán subir contenido y sus respectivos cursos para que los usuarios puedan dispones de estos. Se tiene pensado agregar 
 tres medios de pago, de tarjeta (credito/debito) y efectivo. Los usuarios que no se registren solo estarán limitados a ver el contenido de los cursos, mas no podran verlos
 como tal.
+Aparte de subir/comprar cursos los usuarios registrados podrán añadir comentarios y calificaciones de sus cursos favoritos
 
 
 ## ¿Quienes mantienen y contribuyen a Udemy-App?

@@ -1,6 +1,8 @@
 package main
 
+import models.Comment
 import models.Course
+import models.User
 
 
 fun main() {
@@ -8,11 +10,17 @@ fun main() {
     val availableCourses: MutableList<Course> =
         mutableListOf(
             Course("Desarrollo móvil para principiantes",299f,
-            30.5f,10,"Julio Profe",4.5f),
+            30.5f,10,"Julio Profe",4.5f, "programacion"),
             Course("Desarrollo Web Avanzado",400f,
-                56.15f,45,"Ana Barrera",4.2f),
+                56.15f,45,"Ana Barrera",4.2f, "programacion"),
             Course("Diseño Grafico intermedio",350f,
-                84.27f,30,"Horacio Fernández",4.8f))
+                84.27f,30,"Horacio Fernández",4.8f, "diseño grafico"))
+
+    val registeredUsers: MutableList<User> =
+        mutableListOf(User("paulina", "paulina.mucito@gmail.com", "paulina123"))
+
+    val coursesComments: MutableList<Comment> =
+        mutableListOf(Comment("Desarrollo móvil para principiantes", 4.5f, "paulina", "buen curso"))
 
     /* Código para el proyecto */
     /* Credenciales para el login */
@@ -43,39 +51,42 @@ fun main() {
 
     fun registrar() {
         println("---------------------------Registro--------------------------------")
-        println("Ingrese un usuario: ")
-        //nombre = readLine().toString()
+        println("Ingrese un nombre de usuario: ")
         var usuarioNuevo = readLine().toString()
+        println("Ingrese su correo electronico: ")
+        var email = readLine().toString()
         println("Ingrese un password: ")
-        //password = readLine().toString()
         var passwordNuevo = readLine().toString()
-        usuarios.put(usuarioNuevo, passwordNuevo)
-        println(usuarios)
-        println("Usuario registrado correctamente")
+        val myUser = User(usuarioNuevo, email, passwordNuevo)
+        registeredUsers.add(myUser)
     }
 
     fun login() {
         println("-----------------------------LOGIN---------------------------------")
         // leemos las credenciales del usuario
         println("Usuario: ")
-        var user = readLine().toString()
+        var email = readLine().toString()
         println("Password: ")
         var pass = readLine().toString()
+
+        var myUser = registeredUsers.find{ it.email == email}
+        myUser?.LogIn(email, pass)
+
         // comparamos si el usuario y el password coinciden
-        if ((user in usuarios.keys) && (usuarios.get(key = user).equals(pass))) {
-            println("Ingreso correcto")
-            saludar(user)
-            exit = 2
-        } else {
-            println("Lo sentimos, usuario o password incorrectos, intente de nuevo")
-            println("¿Desea intentarlo de nuevo?")
-            println("1 = SI | 2 = NO")
-            println("Ingrese su respuesta:")
-            exit = readLine()!!.toInt()
-            if (exit == 2) {
-                println("Hasta luego...")
-            }
-        }
+//        if ((user in usuarios.keys) && (usuarios.get(key = user).equals(pass))) {
+//            println("Ingreso correcto")
+//            saludar(user)
+//            exit = 2
+//        } else {
+//            println("Lo sentimos, usuario o password incorrectos, intente de nuevo")
+//            println("¿Desea intentarlo de nuevo?")
+//            println("1 = SI | 2 = NO")
+//            println("Ingrese su respuesta:")
+//            exit = readLine()!!.toInt()
+//            if (exit == 2) {
+//                println("Hasta luego...")
+//            }
+//        }
     }
 
     fun displayCurses() {
@@ -97,7 +108,9 @@ fun main() {
         var courseChapters = readLine()?.toInt()
         println("Autor/es del curso")
         var courseAutor = readLine().toString()
-        availableCourses.add(Course(courseName, courseCost!!,courseDuration!!,courseChapters!!,courseAutor,0f))
+        println("Tematica del curso")
+        var courseTopic = readLine().toString()
+        availableCourses.add(Course(courseName, courseCost!!,courseDuration!!,courseChapters!!,courseAutor,0f, courseTopic))
         println("\n ¡Curso $courseName añadido correctamente!")
         println("********************************************************************\n")
     }
@@ -159,6 +172,20 @@ fun main() {
             }
         }
     }
+
+    fun addComment() {
+        println("-----------------------------AGREGAR COMENTARIO---------------------------------")
+        println("Nombre del curso que quieres comentar")
+        var courseName = readLine().toString()
+        println("Calificacion de 0 a 5")
+        var courseRating = readLine()?.toFloat()
+        println("Nombre de usuario")
+        var userName= readLine().toString()
+        println("Comentario del curso")
+        var courseComment = readLine().toString()
+        coursesComments.add(Comment(courseName, courseRating, userName, courseComment))
+        println("********************************************************************\n")
+    }
     fun confirmarSalida(){
         println("¿Desea regresar al menu principal?")
         println("1 = SI | 2 = NO")
@@ -178,6 +205,7 @@ fun main() {
         println("4: Añadir un nuevo curso")
         println("5: Eliminar un curso")
         println("6: Pagar un curso")
+        println("7: Añadir comentario de curso")
         println("Su opción: ")
         opcionMenu = readLine()!!.toInt()
 
@@ -201,6 +229,9 @@ fun main() {
             }
             6 -> {
                 payCourse()
+            }
+            7 -> {
+                addComment()
             }
             else -> {
                 println("Esa opción no es válida...")
