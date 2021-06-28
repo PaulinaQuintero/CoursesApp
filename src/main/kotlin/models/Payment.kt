@@ -5,7 +5,6 @@ class Payment(private var user:User,
               private var cardNumber: String,
               private var totalCard: Float,
               private var holdName: String) {
-
     init {
         addPaymentMethod(Payment(this.user,this.paymentMethod,this.cardNumber,this.totalCard,this.holdName))
         println("Se creó con éxito el método de pago ${this.paymentMethod}")
@@ -13,8 +12,7 @@ class Payment(private var user:User,
     fun addPaymentMethod(paymentMethod:Payment){
         //Se busca que el método de pago y la tarjeta no estén registrados previamente.
         if(paymentMethod !in user.listOfPaymentMethods &&
-            user.listOfPaymentMethods.filter{ it.cardNumber == paymentMethod.cardNumber }.isEmpty()
-        ){
+            user.listOfPaymentMethods.filter{ it.cardNumber == paymentMethod.cardNumber }.isEmpty()){
             user.listOfPaymentMethods.add(paymentMethod)
         }else{
             println("Este método de pago ya estaba agregado")
