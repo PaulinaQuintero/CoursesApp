@@ -4,7 +4,6 @@ import models.Comment
 import models.Course
 import models.User
 
-
 fun main() {
     /* Cursos Disponibles */
     val availableCourses: MutableList<Course> =
@@ -15,10 +14,10 @@ fun main() {
                 56.15f,45,"Ana Barrera",4.2f, "programacion"),
             Course("Diseño Grafico intermedio",350f,
                 84.27f,30,"Horacio Fernández",4.8f, "diseño grafico"))
-
+    /* Usuarios registrados*/
     val registeredUsers: MutableList<User> =
         mutableListOf(User("paulina", "paulina.mucito@gmail.com", "paulina123"))
-
+    /*Comentarios de cursos disponibles*/
     val coursesComments: MutableList<Comment> =
         mutableListOf(Comment("Desarrollo móvil para principiantes", 4.5f, "paulina", "buen curso"))
 
@@ -28,7 +27,7 @@ fun main() {
     var password = "admin123" //password del usuario
     /* End credenciales para el login */
 
-    /* Datos adicionales del usuario */
+    /* Datos adicionales del usuario de prueba*/
     var creditCard = "123456789" //número de la tarjeta de crédito
     var totalCD = 1500.01f //fondos de la tarjeta de crédito
     var debitCard = "987456321" //número de la tarjeta de débito
@@ -42,23 +41,43 @@ fun main() {
 
     /* Estructuras de datos de tipo MAP mutable */
     // Key = usuario : // Value = password
-    val usuarios: MutableMap<String, String> = mutableMapOf("admin1" to "123", "admin2" to "456")
+    val usuariosAdmin: MutableMap<String, String> = mutableMapOf("admin1" to "123", "admin2" to "456")
 
     /* Funciones */
     fun saludar(user: String) {
         println("¡Hola $user!")
     }
 
+
     fun registrar() {
+        fun retryRegistro(){
+            println("¿Desea reintentar el registro?")
+            println("1 = SI | 2 = NO")
+            println("Su respuesta:")
+            val resp = readLine()!!.toInt()
+            if(resp==1){
+                registrar()
+            }
+        }
+
         println("---------------------------Registro--------------------------------")
         println("Ingrese un nombre de usuario: ")
         var usuarioNuevo = readLine().toString()
         println("Ingrese su correo electronico: ")
         var email = readLine().toString()
-        println("Ingrese un password: ")
+        println("Ingrese un password (minimo 8 caracteres): ")
         var passwordNuevo = readLine().toString()
-        val myUser = User(usuarioNuevo, email, passwordNuevo)
-        registeredUsers.add(myUser)
+        if(email.contains("@") && passwordNuevo.length>=8 &&
+            registeredUsers.find{ it.email == email}==null){
+            val myUser = User(usuarioNuevo, email, passwordNuevo)
+            registeredUsers.add(myUser)
+        }else if(email.contains("@")){
+            println("La contraseña debe ser mayor a 8 caracteres")
+            retryRegistro()
+        }else {
+            println("Direccion de correo electronico no valida")
+            retryRegistro()
+        }
     }
 
     fun login() {
@@ -68,9 +87,13 @@ fun main() {
         var email = readLine().toString()
         println("Password: ")
         var pass = readLine().toString()
-
+        /*Se valida que el usuario exista*/
         var myUser = registeredUsers.find{ it.email == email}
-        myUser?.LogIn(email, pass)
+        if(myUser==null){
+            println("Usuario no está registrado")
+        }else{
+            myUser.LogIn(email, pass)
+        }
 
         // comparamos si el usuario y el password coinciden
 //        if ((user in usuarios.keys) && (usuarios.get(key = user).equals(pass))) {
@@ -142,7 +165,9 @@ fun main() {
 
     fun payCourse(){
         println("-----------------------------PAGAR CURSO---------------------------------")
-        println("Nombre del curso que quieres pagar")
+        println("Los cursos que hay disponibles son:")
+        displayCurses()
+        println("Escribe el nombre del curso que quieres pagar:")
         val courseName = readLine().toString()
         println("¿Qué metodo de pago deseas usar?")
         println("1 = Tarjeta de debito")
