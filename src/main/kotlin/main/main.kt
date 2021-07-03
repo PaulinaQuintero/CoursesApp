@@ -1,19 +1,27 @@
 package main
 
-import models.Comment
-import models.Course
-import models.User
+import models.*
 
 fun main() {
     /* Cursos Disponibles */
-    val availableCourses: MutableList<Course> =
+
+    val categories: MutableMap<Int, String> = mutableMapOf(1 to "programacion", 2 to "base de datos")
+    var shoppingCart = arrayListOf<Course>()
+    val availableProgrammingCourses: MutableList<Programming> =
         mutableListOf(
-            Course("Desarrollo móvil para principiantes",299f,
-            30.5f,10,"Julio Profe",4.5f, "programacion"),
-            Course("Desarrollo Web Avanzado",400f,
-                56.15f,45,"Ana Barrera",4.2f, "programacion"),
-            Course("Diseño Grafico intermedio",350f,
-                84.27f,30,"Horacio Fernández",4.8f, "diseño grafico"))
+            Programming("Desarrollo móvil para principiantes",299f,
+            30.5f,10,"Julio Profe",4.5f, "programacion", "java", "xamarin", "IntelliJ"),
+            Programming("Desarrollo Web Full Sack",450f,
+                42.9f,12,"John Doe",3.2f, "programacion", "javascript", "react", "Visual Studio Code"),
+            Programming("Desarrollo Web Backend",350f,
+            50.5f,20,"Hugo Lopez",4.4f, "programacion", "python", "django", "PyCharm"))
+
+    val availableDatabaseCourses: MutableList<Databases> =
+        mutableListOf(
+            Databases("Mysql de basico a avanzado",200f,
+                43.5f,15,"Antonio Morán",2.3f, "base de datos", true, "Mysql", "Workbench"),
+            Databases("MongoDb principios basicos",520f,
+                60.2f,20,"Juana Castillo",4.9f, "base de datos", false, "MongoDB", "Mongo Atlas"))
     /* Usuarios registrados*/
     val registeredUsers: MutableList<User> =
         mutableListOf(User("paulina", "paulina.mucito@gmail.com", "paulina123"))
@@ -33,6 +41,8 @@ fun main() {
     var debitCard = "987456321" //número de la tarjeta de débito
     var totalDC = 2512.30f //fondos de la tarjeta de débito
     /* End Datos adicionales del usuario */
+
+    var totalAmount = 0f
 
     /* Variables para la ejecución de los while */
     var exit = 0//variable par salir del programa
@@ -113,27 +123,79 @@ fun main() {
     }
 
     fun displayCurses() {
-        println("-----------------------------CURSOS DISPONIBLES---------------------------------")
-        availableCourses.forEach{
-            println(it.name+" "+ " "+it.price+ " "+it.author)
+        println("-----------------------------CATEGORIAS DISPONIBLES---------------------------------")
+        for ((key, value) in categories) {
+            print("$key. ${value.substring(0, 1).toUpperCase() + value.substring(1)}\n")
         }
-        println("********************************************************************\n")
+        println("¿De qué categoria deseas explorar?")
+        when (val courseTopic = readLine()?.toInt()) {
+            1 -> {
+                println("-----------------------------CURSOS DISPONIBLES DE ${categories[courseTopic].toString().toUpperCase()}---------------------------------")
+                availableProgrammingCourses.forEach{
+                    println("Curso: ${it.name}\n Precio: $${it.price}\n Autor: ${it.author}\n Lenguaje: ${it.languaje}\n Framework: ${it.framework}\n")
+                    println("********************************************************************\n")
+                }
+            }
+
+            2 -> {
+                println("-----------------------------CURSOS DISPONIBLES DE ${categories[courseTopic].toString().toUpperCase()}---------------------------------")
+                availableDatabaseCourses.forEach{
+                    println("Curso: ${it.name}\n Precio: $${it.price}\n Autor: ${it.author}\n Sistema de BD: ${it.systemDB}\n")
+                    println("********************************************************************\n")
+                }
+            }
+            else -> {
+                println("Esa opción no es válida...")
+            }
+        }
     }
     fun addCourse() {
         println("-----------------------------AGREGAR CURSO---------------------------------")
         println("Nombre del curso")
-        var courseName = readLine().toString()
+        val courseName = readLine().toString()
         println("Costo del curso")
-        var courseCost = readLine()?.toFloat()
-        println("Duración del curso")
-        var courseDuration = readLine()?.toFloat()
+        val courseCost = readLine()?.toFloat()
+        println("Duración del curso (especifique en horas)")
+        val courseDuration = readLine()?.toFloat()
         println("Capitulos del curso")
-        var courseChapters = readLine()?.toInt()
+        val courseChapters = readLine()?.toInt()
         println("Autor/es del curso")
-        var courseAutor = readLine().toString()
-        println("Tematica del curso")
-        var courseTopic = readLine().toString()
-        availableCourses.add(Course(courseName, courseCost!!,courseDuration!!,courseChapters!!,courseAutor,0f, courseTopic))
+        val courseAutor = readLine().toString()
+        println("Agrega una tematica a tu curso, estas son las categorias disponibles")
+        for ((key, value) in categories) {
+            print("$key. ${value.substring(0, 1).toUpperCase() + value.substring(1)}\n")
+        }
+        println("Elige una categoria")
+
+        when (val courseTopic = readLine()?.toInt()) {
+            1 -> {
+                println("Ingresa el lenguaje de programacion del curso")
+                val courseLanguage = readLine().toString()
+                println("Ingresa el framework del curso")
+                val courseFramework = readLine().toString()
+                println("Ingresa el IDE que se está usando en el curso")
+                val courseIDE = readLine().toString()
+                val category = categories[courseTopic].toString()
+                availableProgrammingCourses.add(Programming(courseName, courseCost!!,courseDuration!!,courseChapters!!,courseAutor,0f, category, courseLanguage, courseFramework, courseIDE))
+            }
+
+            2 -> {
+                println("Tu curso es de bases de datos SQL o NoSql?")
+                println("1. SQL")
+                println("2. NoSql")
+
+                val courseDBType = readLine()?.toInt() == 1
+                println("Ingresa el sistema de base de datos")
+                val courseDBSystem = readLine().toString()
+                println("Ingresa el gestor de BD que se utilizará durante el curso")
+                val courseDBManager = readLine().toString()
+                val category = categories[courseTopic].toString()
+                availableDatabaseCourses.add(Databases(courseName, courseCost!!,courseDuration!!,courseChapters!!,courseAutor,0f, category, courseDBType, courseDBSystem, courseDBManager))
+            }
+            else -> {
+                println("Esa opción no es válida...")
+            }
+        }
         println("\n ¡Curso $courseName añadido correctamente!")
         println("********************************************************************\n")
     }
@@ -142,15 +204,32 @@ fun main() {
         println("-----------------------------ELIMINAR CURSO---------------------------------")
         println("Estos son los cursos disponibles por el momento:")
         displayCurses()
-        println("Nombre del curso que quieres eliminarr")
-        val courseName = readLine().toString()
-        println("¿Estas seguro que quieres eliminar? S/N")
+        println("¿Estas seguro que quieres eliminar? Este curso no se podrá recuperar despues S/N")
         val confirmation = readLine().toString().toUpperCase()
         when (confirmation) {
             "S" -> {
-                availableCourses.removeAt(
-                    availableCourses.indexOf(availableCourses.find{ it.name == courseName}));
-                println("\n ¡Curso $courseName eliminado correctamente!")
+                for ((key, value) in categories) {
+                    print("$key. ${value.substring(0, 1).toUpperCase() + value.substring(1)}\n")
+                }
+                println("Elige una categoria")
+                when (val courseTopic = readLine()?.toInt()) {
+                    1 -> {
+                        println("Nombre del curso que quieres eliminarr")
+                        val courseName = readLine().toString()
+                        availableProgrammingCourses.removeAt(availableProgrammingCourses.indexOf(availableProgrammingCourses.find{ it.name == courseName}));
+                        println("\n ¡Curso $courseName eliminado correctamente!")
+                    }
+
+                    2 -> {
+                        println("Nombre del curso que quieres eliminarr")
+                        val courseName = readLine().toString()
+                        availableDatabaseCourses.removeAt(availableDatabaseCourses.indexOf(availableDatabaseCourses.find{ it.name == courseName}));
+                        println("\n ¡Curso $courseName eliminado correctamente!")
+                    }
+                    else -> {
+                        println("Esa opción no es válida...")
+                    }
+                }
             }
             "N" -> {
                 return
@@ -163,23 +242,23 @@ fun main() {
         println("********************************************************************\n")
     }
 
-    fun payCourse(){
-        println("-----------------------------PAGAR CURSO---------------------------------")
-        println("Los cursos que hay disponibles son:")
-        displayCurses()
-        println("Escribe el nombre del curso que quieres pagar:")
-        val courseName = readLine().toString()
+    fun payShoppingCart(){
+        println("-----------------------------PAGAR CARRITO---------------------------------")
         println("¿Qué metodo de pago deseas usar?")
         println("1 = Tarjeta de debito")
         println("2 = Tarjeta de credito")
         val paymentMethod = readLine()?.toInt()
         println("Ingresa el numero de tarjeta")
         val card = readLine().toString()
+        val paidCourses = mutableListOf<String>()
+        shoppingCart.forEach{
+            paidCourses.add(it.name)
+        }
         if(paymentMethod == 1) {
             if (card == debitCard) {
-                if(totalDC > availableCourses.find{ it.name == courseName}?.price!!) {
-                    totalDC -= availableCourses.find{ it.name == courseName}?.price!!
-                    println("¡Pago aprobado! Has comprado el curso $courseName exitosamente")
+                if(totalDC > totalAmount) {
+                    totalDC -= totalAmount
+                    println("¡Pago aprobado! Has comprado el curso ${paidCourses.joinToString(",")} exitosamente")
                 }
                 else {
                     println("Saldo insuficiente para terminar la compra")
@@ -187,9 +266,9 @@ fun main() {
             }
         } else {
             if (card == creditCard) {
-                if(totalCD > availableCourses.find{ it.name == courseName}?.price!!) {
-                    totalCD -= availableCourses.find{ it.name == courseName}?.price!!
-                    println("¡Pago aprobado! Has comprado el curso $courseName exitosamente")
+                if(totalCD > totalAmount) {
+                    totalCD -= totalAmount
+                    println("¡Pago aprobado! Has comprado el curso ${paidCourses.joinToString(",")} exitosamente")
                 }
                 else {
                     println("Saldo insuficiente para terminar la compra")
@@ -201,13 +280,13 @@ fun main() {
     fun addComment() {
         println("-----------------------------AGREGAR COMENTARIO---------------------------------")
         println("Nombre del curso que quieres comentar")
-        var courseName = readLine().toString()
+        val courseName = readLine().toString()
         println("Calificacion de 0 a 5")
-        var courseRating = readLine()?.toFloat()
+        val courseRating = readLine()?.toFloat()
         println("Nombre de usuario")
-        var userName= readLine().toString()
+        val userName= readLine().toString()
         println("Comentario del curso")
-        var courseComment = readLine().toString()
+        val courseComment = readLine().toString()
         coursesComments.add(Comment(courseName, courseRating, userName, courseComment))
         println("********************************************************************\n")
     }
@@ -215,6 +294,50 @@ fun main() {
         println("¿Desea regresar al menu principal?")
         println("1 = SI | 2 = NO")
         println("Su respuesta: ")
+    }
+
+    fun addCourseToShoppingCart() {
+        println("-----------------------------AGREGAR CURSO AL CARRITO---------------------------------")
+        println("Nombre de la categoria del curso que quieres agregar al carrito")
+        for ((key, value) in categories) {
+            print("$key. ${value.substring(0, 1).toUpperCase() + value.substring(1)}\n")
+        }
+        when (val courseTopic = readLine()?.toInt()) {
+            1 -> {
+                println("Nombre del curso que quieres agregar al carrito")
+                val courseName = readLine().toString()
+                val newCourse = availableProgrammingCourses.find{ it.name==courseName }
+                if (newCourse != null) {
+                    shoppingCart.add(Programming(newCourse.name, newCourse.price, newCourse.Hrduration, newCourse.chapters, newCourse.author, newCourse.rating, newCourse.topic, newCourse.languaje, newCourse.framework, newCourse.IDE))
+                }
+                }
+
+            2 -> {
+            println("Nombre del curso que quieres agregar al carrito")
+            val courseName = readLine().toString()
+                val newCourse = availableDatabaseCourses.find{ it.name==courseName }
+                if (newCourse != null) {
+                    shoppingCart.add(Databases(newCourse.name, newCourse.price, newCourse.Hrduration, newCourse.chapters, newCourse.author, newCourse.rating, newCourse.topic, newCourse.isSQL, newCourse.systemDB, newCourse.dbManager))
+                }
+
+            }
+            else -> {
+                println("Esa opción no es válida...")
+            }
+        }
+
+    }
+
+    fun showShoppingCart(){
+        println("-----------------------------ALMACENADO HASTA EL MOMENTO EN EL CARRITO---------------------------------")
+        shoppingCart.forEach{
+            totalAmount += it.price
+            println("Curso: ${it.name}\n Precio: $${it.price}\n Autor: ${it.author}\n")
+            println("********************************************************************\n")
+        }
+        println("***************************Total a Pagar**************************************")
+        println("$totalAmount")
+        println("********************************************************************\n")
     }
     /* Menú a mostrar al usuario */
     println("-------------------------------------------------------------------")
@@ -231,6 +354,9 @@ fun main() {
         println("5: Eliminar un curso")
         println("6: Pagar un curso")
         println("7: Añadir comentario de curso")
+        println("8: Añadir un curso al carrito")
+        println("9: Mostrar carrito")
+        println("10: Salir")
         println("Su opción: ")
         opcionMenu = readLine()!!.toInt()
 
@@ -253,17 +379,30 @@ fun main() {
                 deleteCourse()
             }
             6 -> {
-                payCourse()
+                payShoppingCart()
             }
             7 -> {
                 addComment()
             }
+            8 -> {
+                addCourseToShoppingCart()
+            }
+            9 -> {
+                showShoppingCart()
+            }
+            10 -> {
+                println("\n*******************************************")
+                println("¡Gracias por usar Udemy App, vuelva pronto!")
+                println("*******************************************\n")
+                return
+            }
             else -> {
-                println("Esa opción no es válida...")
+                println("Ups, esa opción no es válida...")
             }
         }
         confirmarSalida()
         opcionSalidaMenu = readLine()!!.toInt()
     } while (opcionSalidaMenu == 1)// ejecuta el menú principal mientras la opción del usuario sea 1
 }
+
 
