@@ -23,19 +23,19 @@ fun main() {
 
     /* Código para el proyecto */
     /* Credenciales para el login */
-    var username = "admin"// usuario
-    var password = "admin123" //password del usuario
+    val username = "admin"// usuario
+    val password = "admin123" //password del usuario
     /* End credenciales para el login */
 
     /* Datos adicionales del usuario de prueba*/
-    var creditCard = "123456789" //número de la tarjeta de crédito
+    val creditCard = "123456789" //número de la tarjeta de crédito
     var totalCD = 1500.01f //fondos de la tarjeta de crédito
-    var debitCard = "987456321" //número de la tarjeta de débito
+    val debitCard = "987456321" //número de la tarjeta de débito
     var totalDC = 2512.30f //fondos de la tarjeta de débito
     /* End Datos adicionales del usuario */
 
     /* Variables para la ejecución de los while */
-    var exit = 0//variable par salir del programa
+    val exit = 0//variable par salir del programa
     var opcionMenu = 0 //variable para escoger la opción del menú de inicio (7 opciones)
     var opcionSalidaMenu = 0 // variable para mostrar o no el menú de inicio aka. salir de la "app".
 
@@ -62,11 +62,11 @@ fun main() {
 
         println("---------------------------Registro--------------------------------")
         println("Ingrese un nombre de usuario: ")
-        var usuarioNuevo = readLine().toString()
+        val usuarioNuevo = readLine().toString()
         println("Ingrese su correo electronico: ")
-        var email = readLine().toString()
+        val email = readLine().toString()
         println("Ingrese un password (minimo 8 caracteres): ")
-        var passwordNuevo = readLine().toString()
+        val passwordNuevo = readLine().toString()
         if(email.contains("@") && passwordNuevo.length>=8 &&
             registeredUsers.find{ it.email == email}==null){
             val myUser = User(usuarioNuevo, email, passwordNuevo)
@@ -84,11 +84,11 @@ fun main() {
         println("-----------------------------LOGIN---------------------------------")
         // leemos las credenciales del usuario
         println("Usuario: ")
-        var email = readLine().toString()
+        val email = readLine().toString()
         println("Password: ")
-        var pass = readLine().toString()
+        val pass = readLine().toString()
         /*Se valida que el usuario exista*/
-        var myUser = registeredUsers.find{ it.email == email}
+        val myUser = registeredUsers.find{ it.email == email}
         if(myUser==null){
             println("Usuario no está registrado")
         }else{
@@ -122,17 +122,17 @@ fun main() {
     fun addCourse() {
         println("-----------------------------AGREGAR CURSO---------------------------------")
         println("Nombre del curso")
-        var courseName = readLine().toString()
+        val courseName = readLine().toString()
         println("Costo del curso")
-        var courseCost = readLine()?.toFloat()
+        val courseCost = readLine()?.toFloat()
         println("Duración del curso")
-        var courseDuration = readLine()?.toFloat()
+        val courseDuration = readLine()?.toFloat()
         println("Capitulos del curso")
-        var courseChapters = readLine()?.toInt()
+        val courseChapters = readLine()?.toInt()
         println("Autor/es del curso")
-        var courseAutor = readLine().toString()
+        val courseAutor = readLine().toString()
         println("Tematica del curso")
-        var courseTopic = readLine().toString()
+        val courseTopic = readLine().toString()
         availableCourses.add(Course(courseName, courseCost!!,courseDuration!!,courseChapters!!,courseAutor,0f, courseTopic))
         println("\n ¡Curso $courseName añadido correctamente!")
         println("********************************************************************\n")

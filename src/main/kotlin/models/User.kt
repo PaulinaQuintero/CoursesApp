@@ -1,7 +1,7 @@
 package models
 
 
-class User(var name: String, var email: String, private var pass: String) {
+class User(var name: String, var email: String, private val pass: String) {
     val userType:String = "user"
     val PASSWORD_LENGTH = 8
     init {

@@ -1,10 +1,10 @@
 package models
 
-class Payment(private var user:User,
-              private var paymentMethod: String,
+class Payment(private val user:User,
+              private val paymentMethod: String,
               private var cardNumber: String,
-              private var totalCard: Float,
-              private var holdName: String) {
+              private val totalCard: Float,
+              private val holdName: String) {
     init {
         addPaymentMethod(Payment(this.user,this.paymentMethod,this.cardNumber,this.totalCard,this.holdName))
         println("Se creó con éxito el método de pago ${this.paymentMethod}")
