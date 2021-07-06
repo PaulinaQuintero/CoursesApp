@@ -44,11 +44,11 @@ fun main() {
     // Key = usuario : // Value = password
     val usuariosAdmin: MutableMap<String, String> = mutableMapOf("admin1" to "123", "admin2" to "456")
 
+    var currentUser = "Sin identificar"
     /* Funciones */
     fun saludar(user: String) {
         println("¡Hola $user!")
     }
-
 
     fun registrar() {
         fun retryRegistro(){
@@ -94,6 +94,7 @@ fun main() {
             println("Usuario no está registrado")
         }else{
             myUser.LogIn(email, pass)
+            var currentUser = "Usuario"
         }
 
         // comparamos si el usuario y el password coinciden
@@ -113,7 +114,7 @@ fun main() {
 //        }
     }
 
-    fun displayCurses() {
+    fun displayCourses() {
         println("-----------------------------CURSOS DISPONIBLES---------------------------------")
         availableCourses.forEach{
             println(it.name+" "+ " "+it.price+ " "+it.author)
@@ -142,7 +143,7 @@ fun main() {
     fun deleteCourse() {
         println("------------------------------ELIMINAR CURSO---------------------------------")
         println("Estos son los cursos disponibles por el momento:")
-        displayCurses()
+        displayCourses()
         println("Nombre del curso que quieres eliminarr")
         val courseName = readLine().toString()
         println("¿Estas seguro que quieres eliminar? S/N")
@@ -167,7 +168,7 @@ fun main() {
     fun payCourse(){
         println("-----------------------------PAGAR CURSO---------------------------------")
         println("Los cursos que hay disponibles son:")
-        displayCurses()
+        displayCourses()
         println("Escribe el nombre del curso que quieres pagar:")
         val courseName = readLine().toString()
         println("¿Qué metodo de pago deseas usar?")
@@ -212,6 +213,24 @@ fun main() {
         coursesComments.add(Comment(courseName, userName, courseRating, courseComment))
         println("********************************************************************\n")
     }
+    fun displayUsers(){
+        println("-----------------------------VER USUARIOS---------------------------------")
+        println("¿Cómo deseas ver los usuarios?")
+        println("1 = Ver todos | 2 = Ver solo usuarios con derechos de admin | 3 = Ver usuarios sin derechos de admin")
+        val opcion = readLine()?.toFloat()
+        when(opcion){
+            1f -> {
+                registeredUsers.forEach { println(it.name) }
+                usuariosAdmin.forEach { println(it.key) }
+            }
+            2f -> usuariosAdmin.forEach { println(it.key)}
+            3f -> registeredUsers.forEach { println(it.name)}
+            else->{
+                println("Opción no es válida, favor de ingresar una de las opciones disponibles")
+                displayUsers()
+            }
+        }
+    }
     fun confirmarSalida(){
         println("¿Desea regresar al menu principal?")
         println("1 = SI | 2 = NO")
@@ -245,7 +264,7 @@ fun main() {
                 registrar()
             }
             3 -> {
-                displayCurses()
+                displayCourses()
             }
             4 -> {
                 addCourse()
@@ -259,6 +278,9 @@ fun main() {
             7 -> {
                 addComment()
             }
+            8 -> {
+                displayUsers()
+            }
             else -> {
                 println("Esa opción no es válida...")
             }
@@ -267,4 +289,5 @@ fun main() {
         opcionSalidaMenu = readLine()!!.toInt()
     } while (opcionSalidaMenu == 1)// ejecuta el menú principal mientras la opción del usuario sea 1
 }
+
 

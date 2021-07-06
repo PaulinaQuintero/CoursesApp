@@ -2,7 +2,14 @@ package models
 
 
 class User(var name: String, var email: String, private val pass: String) {
-    val userType:String = "user"
+    var userType:String = "user"
+    set(value){
+        if(value=="admin"){
+            field = value
+            println("Usuario actualizado con derechos de administrador")
+        }
+    }
+
     val PASSWORD_LENGTH = 8
     init {
         println("¡Usuario $name registrado exitosamente!")
@@ -45,4 +52,5 @@ class User(var name: String, var email: String, private val pass: String) {
         val ownerTarjeta:String = readLine().toString()!!
         var newPayment = Payment(this,metodo,numTarjeta,dineroCuenta,ownerTarjeta)
     }
+
 }
