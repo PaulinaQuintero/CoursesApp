@@ -1,6 +1,7 @@
 package main
-
 import models.Comment
+import java.util.*
+//import models.Comment
 import models.Course
 import models.User
 
@@ -19,7 +20,7 @@ fun main() {
         mutableListOf(User("paulina", "paulina.mucito@gmail.com", "paulina123"))
     /*Comentarios de cursos disponibles*/
     val coursesComments: MutableList<Comment> =
-        mutableListOf(Comment("Desarrollo móvil para principiantes", 4.5f, "paulina", "buen curso"))
+        mutableListOf(Comment("Desarrollo móvil para principiantes",  "paulina", 4.5f,"buen curso"))
 
     /* Código para el proyecto */
     /* Credenciales para el login */
@@ -208,7 +209,7 @@ fun main() {
         var userName= readLine().toString()
         println("Comentario del curso")
         var courseComment = readLine().toString()
-        coursesComments.add(Comment(courseName, courseRating, userName, courseComment))
+        coursesComments.add(Comment(courseName, userName, courseRating, courseComment))
         println("********************************************************************\n")
     }
     fun confirmarSalida(){
