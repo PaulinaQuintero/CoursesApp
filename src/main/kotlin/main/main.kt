@@ -140,7 +140,7 @@ fun main() {
     }
 
     fun deleteCourse() {
-        println("-----------------------------ELIMINAR CURSO---------------------------------")
+        println("------------------------------ELIMINAR CURSO---------------------------------")
         println("Estos son los cursos disponibles por el momento:")
         displayCurses()
         println("Nombre del curso que quieres eliminarr")

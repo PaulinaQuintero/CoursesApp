@@ -11,9 +11,9 @@ public class Comment {
         this.courseRating = courseRating;
         this.userName = userName;
         this.courseComment = courseComment;
-
         System.out.println("¡"+userName+" has añadido un nuevo comentario del curso "+courseName+" correctamente!");
     }
+
 
 
 

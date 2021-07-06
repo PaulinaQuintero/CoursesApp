@@ -4,4 +4,4 @@ class Comment(var courseName: String, val courseRating: Float?, var userName: St
     init {
         println("¡${userName} has añadido un nuevo comentario del curso $courseName correctamente!")
     }
-}*/
+} */
